@@ -37,9 +37,15 @@ const MyProfile = () => {
     }
 
     const handleDelete =async (post) =>{
-      const response = await fetch(`/api/prompt/${post._id}`,{
-        method:'DELETE'
-      })
+      const isDelete = confirm('Delete?')
+      if(isDelete){
+        const response = await fetch(`/api/prompt/${post._id}`,{
+          method:'DELETE'
+        })
+        const filteredPosts = posts.filter((item) => item._id !== post._id);
+
+        setPosts(filteredPosts);
+      }
     }
   return (
     <ProtectedRoute>

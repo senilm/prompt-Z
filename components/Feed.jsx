@@ -46,9 +46,7 @@ const Feed = () => {
             console.log(response.text);
           }
         } else {
-          const response = await fetch("/api/prompt/fetch",{
-            cache:'no-store'
-          });
+          const response = await fetch("/api/prompt/fetch");
 
           if (response.ok) {
             const data = await response.json();

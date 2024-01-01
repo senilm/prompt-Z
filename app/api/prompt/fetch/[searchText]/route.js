@@ -13,7 +13,7 @@ export const GET = async (req, { params }) => {
       }).populate('creator')
   
       if (!searchResults || searchResults.length === 0) {
-        return new Response(JSON.stringify({ message: "No Posts with such tags!!!" }), { status: 404 });
+        return new Response("No Posts with such tags!!!" , { status: 404 });
       }
   
       return new Response(JSON.stringify(searchResults), { status: 200 });
