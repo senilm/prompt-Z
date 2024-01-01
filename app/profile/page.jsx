@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Profile from "@/components/Profile";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import { revalidatePath } from "next/cache";
 const MyProfile = () => {
 
     const [posts, setPosts] = useState([])
@@ -41,6 +42,7 @@ const MyProfile = () => {
       })
       if(response.ok){
         location.reload()
+        revalidatePath('/','page')
       }
     }
   return (

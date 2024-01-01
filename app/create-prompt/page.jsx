@@ -5,6 +5,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Form from "@/components/Form"
 import ProtectedRoute from "@/components/ProtectedRoute"
+import { revalidatePath } from "next/cache"
 
 const CreatePrompt = () => {
     const router = useRouter()
@@ -33,6 +34,7 @@ const CreatePrompt = () => {
             console.log(error);
         }finally{
             setSubmitting(false)
+            revalidatePath('/','page')
         }
         
     }

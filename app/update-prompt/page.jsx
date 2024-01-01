@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import Form from "@/components/Form"
 import { useSearchParams } from "next/navigation"
 import ProtectedRoute from "@/components/ProtectedRoute"
+import { revalidatePath } from "next/cache"
 
 const UpdatePrompt = () => {
     const router = useRouter()
@@ -51,6 +52,7 @@ const UpdatePrompt = () => {
             console.log(error);
         }finally{
             setSubmitting(false)
+            revalidatePath('/','page')
         }
         
     }
