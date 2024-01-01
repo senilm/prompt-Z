@@ -10,10 +10,12 @@ export const DELETE = async (req,{params})=>{
         if(!prompt){
             return new Response(JSON.stringify("Error deleting file."),{status:400})
         }
-        revalidatePath('/','page')
+        
         return new Response(JSON.stringify("Successfully deleted...!!"),{status:200})
     } catch (error) {
         return new Response(JSON.stringify("Error while deleting!!!"),{status:400})
+    }finally{
+        revalidatePath('/')
     }
 
 }
@@ -24,11 +26,13 @@ export const PATCH = async (req,{params})=>{
     try {
         await connectToDB()
        const existingPrompt = await Prompt.findByIdAndUpdate(id,{prompt,tag},{new:true})
-       revalidatePath('/','page')
+       
        return new Response(JSON.stringify(existingPrompt),{status:200})
     } catch (error) {
         return new Response("Error fetching prompts",{status:401})
-    }  
+    }  finally{
+        revalidatePath('/')
+    }
     
 }
 
