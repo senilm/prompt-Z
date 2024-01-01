@@ -40,10 +40,6 @@ const MyProfile = () => {
       const response = await fetch(`/api/prompt/${post._id}`,{
         method:'DELETE'
       })
-      if(response.ok){
-        location.reload()
-        
-      }
     }
   return (
     <ProtectedRoute>
