@@ -11,6 +11,7 @@ export const POST = async(req,res) =>{
             prompt,
             tag
         })
+        revalidatePath('/','page')
         return new Response(JSON.stringify(newPrompt),{status:201})
     } catch (error) {
         return new Response("Failed to create a prompt",{status:500})
