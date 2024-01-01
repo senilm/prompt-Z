@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import PromptCard from "./PromptCard";
 import debounce from "lodash/debounce"; // Import lodash debounce
 import CardSkeleton from "./CardSkeleton";
+import { revalidatePath } from "next/cache";
 
 const PromptCardList = ({ data, handleTagClick }) => {
   return (
@@ -53,6 +54,7 @@ const Feed = () => {
             const data = await response.json();
             setFeedData(data);
             setIsLoading(false);
+            revalidatePath('/')
           }
         }
       } catch (error) {
