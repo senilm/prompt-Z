@@ -28,6 +28,7 @@ const CreatePrompt = () => {
                 })
             })
             if (response.ok) {
+                router.replace(router.asPath, undefined, { scroll: false });
                 router.push('/')
             }
         } catch (error) {
