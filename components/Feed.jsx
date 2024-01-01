@@ -25,50 +25,56 @@ const PromptCardList = ({ data, handleTagClick }) => {
 };
 
 const Feed = () => {
+  const [allPosts, setAllPosts] = useState([]);
+
+  // Search states
   const [searchText, setSearchText] = useState("");
-  const [feedData, setFeedData] = useState([]);
+  const [searchTimeout, setSearchTimeout] = useState(null);
+  const [searchedResults, setSearchedResults] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const handleSearchChange = (e) => {
-    setSearchText(e.target.value);
+
+  const fetchPosts = async () => {
+    const response = await fetch("/api/prompt/fetch");
+    const data = await response.json();
+
+    setAllPosts(data);
+    setIsLoading(false)
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (searchText) {
-          const response = await fetch(`/api/prompt/fetch/${searchText}`);
+    fetchPosts();
+  }, []);
 
-          if (response.ok) {
-            const data = await response.json();
-            setFeedData(data);
-            setIsLoading(false);
-          } else {
-            console.log(response.text);
-          }
-        } else {
-          const response = await fetch("/api/prompt/fetch");
+  const filterPrompts = (searchtext) => {
+    const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
+    return allPosts.filter(
+      (item) =>
+        regex.test(item.creator.username) ||
+        regex.test(item.tag) ||
+        regex.test(item.prompt)
+    );
+  };
 
-          if (response.ok) {
-            const data = await response.json();
-            setFeedData(data);
-            setIsLoading(false);
-          }
-        }
-      } catch (error) {
-        console.log(error);
-        setIsLoading(false);
-      }
-    };
+  const handleSearchChange = (e) => {
+    clearTimeout(searchTimeout);
+    setSearchText(e.target.value);
 
-    // Use lodash's debounce function
-    const debouncedFetchData = debounce(fetchData, 500);
+    // debounce method
+    setSearchTimeout(
+      setTimeout(() => {
+        const searchResult = filterPrompts(e.target.value);
+        setSearchedResults(searchResult);
+      }, 500)
+    );
+  };
 
-    // Call debouncedFetchData on searchText change
-    debouncedFetchData();
+  const handleTagClick = (tagName) => {
+    setSearchText(tagName);
 
-    // Cleanup function to clear the timeout when the component unmounts or when searchText changes
-    return () => debouncedFetchData.cancel();
-  }, [searchText]);
+    const searchResult = filterPrompts(tagName);
+    setSearchedResults(searchResult);
+  };
+
 
   return (
     <section className="feed">
@@ -89,7 +95,16 @@ const Feed = () => {
         <CardSkeleton />
         </div>
       ) : (
-        <PromptCardList data={feedData} handleTagClick={() => {}} />
+        <>
+        {searchText ? (
+          <PromptCardList
+          data={searchedResults}
+          handleTagClick={handleTagClick}
+          />
+          ) : (
+            <PromptCardList data={allPosts} handleTagClick={handleTagClick} />
+            )}
+          </>
       )}
     </section>
   );
