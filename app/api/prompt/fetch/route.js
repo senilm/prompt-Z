@@ -8,7 +8,7 @@ export const GET = async (req,res) =>{
        if(!prompts){
         return new Response("No Prompts Found",{status:400})
        }
-       revalidatePath('/','page')
+       
        return new Response(JSON.stringify(prompts),{status:200})
     } catch (error) {
         return new Response("Error fetching prompts",{status:401})
