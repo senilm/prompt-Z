@@ -34,9 +34,7 @@ const CreatePrompt = () => {
             console.log(error);
         }finally{
             setSubmitting(false)
-            revalidatePath('/','page')
         }
-        
     }
   return (
     <ProtectedRoute>

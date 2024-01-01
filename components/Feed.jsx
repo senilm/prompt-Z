@@ -54,7 +54,6 @@ const Feed = () => {
             const data = await response.json();
             setFeedData(data);
             setIsLoading(false);
-            revalidatePath('/')
           }
         }
       } catch (error) {

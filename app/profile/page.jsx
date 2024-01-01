@@ -42,7 +42,7 @@ const MyProfile = () => {
       })
       if(response.ok){
         location.reload()
-        revalidatePath('/','page')
+        
       }
     }
   return (

@@ -52,7 +52,6 @@ const UpdatePrompt = () => {
             console.log(error);
         }finally{
             setSubmitting(false)
-            revalidatePath('/','page')
         }
         
     }
