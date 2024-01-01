@@ -35,7 +35,7 @@ const Feed = () => {
 
   const fetchPosts = async () => {
     const response = await fetch("/api/prompt/fetch",{
-      next:{revalidate:5}
+      cache:'no-store'
     });
     const data = await response.json();
 
@@ -44,7 +44,7 @@ const Feed = () => {
   };
 
   useEffect(() => {
-    fetchPosts();
+    fetchPosts()
   }, []);
 
   const filterPrompts = (searchtext) => {
