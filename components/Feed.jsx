@@ -34,7 +34,7 @@ const Feed = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchPosts = async () => {
-    const response = await fetch("/api/prompt/fetch",{
+    const response = await fetch(`/api/prompt/fetch/newData/${Math.random()}`,{
       cache:'no-store'
     });
     const data = await response.json();
